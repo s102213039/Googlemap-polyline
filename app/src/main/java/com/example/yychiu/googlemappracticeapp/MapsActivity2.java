@@ -35,7 +35,7 @@ import com.google.android.gms.tasks.Task;
 
 public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallback  {
 
-    PolylineOptions rectOptions = new PolylineOptions().add(new LatLng(23.5, 121.0));
+    PolylineOptions rectOptions = new PolylineOptions();
     private LocationCallback mLocationCallback;
     private LocationRequest mLocationRequest;
     private FusedLocationProviderClient client;
@@ -67,6 +67,12 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
     protected void onResume() {
         super.onResume();
         startLocationUpdates();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        client.removeLocationUpdates(mLocationCallback);
     }
 
     @SuppressLint("MissingPermission")
@@ -116,11 +122,5 @@ public class MapsActivity2 extends FragmentActivity implements OnMapReadyCallbac
                     new String[] {Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION);
         }
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        client.removeLocationUpdates(mLocationCallback);
     }
 }
